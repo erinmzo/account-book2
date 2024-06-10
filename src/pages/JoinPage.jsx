@@ -3,7 +3,7 @@ import LogInButton from "../components/join/LogInButton";
 
 function JoinPage() {
   return (
-    <div className="wrapper">
+    <div className="context">
       <div className="container mini">
         <JoinForm />
         <LogInButton />

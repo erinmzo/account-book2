@@ -1,18 +1,30 @@
+import { useContext } from "react";
+import { redirect } from "react-router-dom";
 import styled from "styled-components";
 import DetailButton from "../components/detail/DetailButton";
 import EditInputs from "../components/detail/EditInputs";
+import Header from "../components/header/Header";
+import { AuthContext } from "../context/AuthProvider";
 
 function DetailPage() {
+  const { isAuthenticated } = useContext(AuthContext);
+  console.log(isAuthenticated);
+  if (!isAuthenticated) {
+    return redirect("/");
+  }
   return (
     <>
       <div className="wrapper">
-        <div className="container">
-          <Box>
-            <EditInputs />
-          </Box>
-          <BtnBox>
-            <DetailButton />
-          </BtnBox>
+        <Header />
+        <div className="context">
+          <div className="container">
+            <Box>
+              <EditInputs />
+            </Box>
+            <BtnBox>
+              <DetailButton />
+            </BtnBox>
+          </div>
         </div>
       </div>
     </>

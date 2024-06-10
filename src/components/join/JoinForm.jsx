@@ -1,38 +1,58 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { joinFetch } from "../../api/Auth";
+import useInputChange from "../../hooks/useInputChange";
 function JoinForm() {
-  const validate = () => {
-    // if () {
-    //   alert("아이디는 4~10자 입니다.");
-    //   return false;
-    // }
-    // if () {
-    //   alert("비밀번호는 4~15자 입니다.");
-    //   return false;
-    // }
-    // if () {
-    //   alert("닉네임은 1~10자 입니다.");
-    //   return false;
-    // }
-  };
+  const navigate = useNavigate();
+  const { values: input, handler: onChangeInput } = useInputChange({
+    id: "",
+    password: "",
+    nickname: "",
+  });
 
-  const handleSubmitJoin = (e) => {
+  const { id, password, nickname } = input;
+
+  const handleSubmitJoin = async (e) => {
     e.preventDefault();
-    const isValid = validate();
-    if (!isValid) return;
+    try {
+      const joinData = await joinFetch(id, password, nickname);
+      alert(joinData.message);
+      navigate("/");
+    } catch (error) {
+      alert(error.response.data.message);
+    }
   };
   return (
     <StyledJoinForm onSubmit={handleSubmitJoin}>
       <StyledJoinDiv>
         <label htmlFor="join-id">아이디</label>
-        <input type="text" id="join-id" placeholder="로그인 아이디" />
+        <input
+          type="text"
+          id="join-id"
+          name="id"
+          placeholder="로그인 아이디"
+          onChange={onChangeInput}
+        />
       </StyledJoinDiv>
       <StyledJoinDiv>
         <label htmlFor="join-password">비밀번호</label>
-        <input type="password" id="join-password" placeholder="비밀번호" />
+        <input
+          type="password"
+          id="join-password"
+          name="password"
+          placeholder="비밀번호"
+          onChange={onChangeInput}
+        />
       </StyledJoinDiv>
       <StyledJoinDiv>
         <label htmlFor="join-nickname">닉네임</label>
-        <input type="password" id="join-nickname" placeholder="비밀번호" />
+        <input
+          type="text"
+          id="join-nickname"
+          name="nickname"
+          placeholder="닉네임"
+          onChange={onChangeInput}
+        />
       </StyledJoinDiv>
       <StyledLoginBtn>가입하기</StyledLoginBtn>
     </StyledJoinForm>

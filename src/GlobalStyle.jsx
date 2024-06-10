@@ -1,6 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
-  .wrapper{
+.wrapper{
+  
+}
+  .context{
     display:flex;
     justify-content: center;
     align-items: center;

@@ -5,22 +5,22 @@ import styled from "styled-components";
 function ListAccount() {
   const accountLists = useSelector((state) => state.accountList.list);
   const clickedMonth = useSelector((state) => state.accountList.month);
-  const monthlyList = accountLists.filter(
+  const monthlyAccountList = accountLists.filter(
     (item) => item.month === clickedMonth
   );
   return (
     <StyledListBox>
       <StyledListUl>
-        {monthlyList.map((month) => {
+        {monthlyAccountList.map((item) => {
           return (
-            <StyledListLi key={month.id}>
-              <Link to={`/detail/${month.id}`}>
-                <StyedDate>{month.date}</StyedDate>
+            <StyledListLi key={item.id}>
+              <Link to={`/detail/${item.id}`}>
+                <StyedDate>{item.date}</StyedDate>
                 <StyledContents>
                   <StyledTitle>
-                    {month.category} - {month.content}
+                    {item.category} - {item.content} / {item.createdBy}
                   </StyledTitle>
-                  <StyledPrice>{month.price}원</StyledPrice>
+                  <StyledPrice>{item.price}원</StyledPrice>
                 </StyledContents>
               </Link>
             </StyledListLi>

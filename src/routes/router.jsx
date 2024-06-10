@@ -4,6 +4,7 @@ import DetailPage from "../pages/DetailPage";
 import HomePage from "../pages/HomePage";
 import JoinPage from "../pages/JoinPage";
 import LogInPage from "../pages/LogInPage";
+import MyPage from "../pages/MyPage";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/join",
     element: <JoinPage />,
+  },
+  {
+    path: "/mypage",
+    element: <MyPage />,
   },
   {
     path: DEATIL_PATH(":detailId"),

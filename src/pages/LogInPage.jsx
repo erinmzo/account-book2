@@ -3,7 +3,7 @@ import LoginForm from "../components/login/LoginForm";
 
 function LogInPage() {
   return (
-    <div className="wrapper">
+    <div className="context">
       <div className="container mini">
         <LoginForm />
         <JoinButton />

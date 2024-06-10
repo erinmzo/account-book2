@@ -1,6 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 function JoinButton() {
-  return <StyledJoinBtn>회원가입</StyledJoinBtn>;
+  const navigate = useNavigate();
+  const handJoinClick = () => {
+    navigate("/join");
+  };
+  return <StyledJoinBtn onClick={handJoinClick}>회원가입</StyledJoinBtn>;
 }
 
 const StyledJoinBtn = styled.button`

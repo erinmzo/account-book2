@@ -1,6 +1,11 @@
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
 function LogInButton() {
-  return <StyledLoginBtn>로그인</StyledLoginBtn>;
+  const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate("/");
+  };
+  return <StyledLoginBtn onClick={handleLoginClick}>로그인</StyledLoginBtn>;
 }
 const StyledLoginBtn = styled.button`
   cursor: pointer;

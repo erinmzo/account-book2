@@ -1,14 +1,54 @@
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
+import { loginFetch } from "../../api/Auth";
+import { AuthContext } from "../../context/AuthProvider";
+import useInputChange from "../../hooks/useInputChange";
 function LoginForm() {
+  const navigate = useNavigate();
+  const { logIn } = useContext(AuthContext);
+  const { values: input, handler: onChangeInput } = useInputChange({
+    id: "",
+    password: "",
+  });
+  const { id, password } = input;
+
+  const handlLoginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await loginFetch(id, password);
+      if (data.success) {
+        logIn(data.accessToken);
+        navigate("/main");
+      } else {
+        alert("로그인 실패");
+      }
+    } catch (error) {
+      alert(`${error}`);
+    }
+  };
+
   return (
-    <StyledLoginForm>
+    <StyledLoginForm onSubmit={handlLoginSubmit}>
       <StyledLoginDiv>
         <label htmlFor="login-id">로그인 아이디</label>
-        <input type="text" id="login-id" placeholder="로그인 아이디" />
+        <input
+          type="text"
+          id="login-id"
+          placeholder="로그인 아이디"
+          name="id"
+          onChange={onChangeInput}
+        />
       </StyledLoginDiv>
       <StyledLoginDiv>
         <label htmlFor="login-password">비밀번호</label>
-        <input type="password" id="login-password" placeholder="비밀번호" />
+        <input
+          type="password"
+          id="login-password"
+          name="password"
+          onChange={onChangeInput}
+          placeholder="비밀번호"
+        />
       </StyledLoginDiv>
       <StyledLoginBtn>로그인</StyledLoginBtn>
     </StyledLoginForm>

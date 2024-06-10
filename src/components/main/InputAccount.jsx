@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import { getUserInfo } from "../../api/Auth";
 import useInputChange from "../../hooks/useInputChange";
 import { add, monthSet } from "../../store/slices/accountSlice";
 import { getMonth } from "../../utils";
@@ -20,6 +21,17 @@ function InputAccount() {
     price: "",
   });
   const { date, category, content, price } = input;
+
+  const token = localStorage.getItem("accessToken");
+
+  const getUserId = async () => {
+    try {
+      const data = await getUserInfo(token);
+      return data.nickname;
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   const validate = () => {
     if (!date.trim() || !category.trim() || !content.trim() || !price.trim()) {
@@ -41,11 +53,13 @@ function InputAccount() {
     return true;
   };
 
-  const submitAccount = (e) => {
+  const submitAccount = async (e) => {
     e.preventDefault();
 
     const isValid = validate();
     if (!isValid) return;
+
+    const userNickName = await getUserId();
 
     const newList = {
       date,
@@ -55,6 +69,7 @@ function InputAccount() {
       //YYYY-MM-DD에서 MM을 추출한것
       month: getMonth(date),
       id: uuidv4(),
+      createdBy: userNickName,
     };
 
     dispatch(add(newList));
