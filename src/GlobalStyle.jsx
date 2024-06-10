@@ -1,11 +1,13 @@
 import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
   .wrapper{
+    display:flex;
+    justify-content: center;
+    align-items: center;
     background-color: #434a5e;
     padding: 30px;
-    height: 100%;
+    height: 100vh;
     min-height: 100vh;
-    padding: 60px;
   }
   .container{
     background-color: #dee7ff;
@@ -17,5 +19,9 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
     gap: 20px;
   }
+  .container.mini{
+    width: 400px;
+  }
 `;
+
 export default GlobalStyle;

@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import useInputChange from "../../hooks/useInputChange";
 import { add, monthSet } from "../../store/slices/accountSlice";
 import { getMonth } from "../../utils";
-import Inputs from "../Inputs";
+import Inputs from "./Inputs";
 
 function InputAccount() {
   const dispatch = useDispatch();

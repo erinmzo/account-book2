@@ -1,7 +1,7 @@
-import GraphAccount from "../GraphAccount";
-import InputAccount from "../InputAccount";
-import ListAccount from "../ListAccount";
-import TabMonth from "../TabMonth";
+import GraphAccount from "../components/main/GraphAccount";
+import InputAccount from "../components/main/InputAccount";
+import ListAccount from "../components/main/ListAccount";
+import TabMonth from "../components/main/TabMonth";
 
 function HomePage() {
   return (
