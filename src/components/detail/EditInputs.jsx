@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getAccountData, updateAccountData } from "../../api/account";
+import { getAccountDataById, updateAccountData } from "../../api/account";
 import useInputChange from "../../hooks/useInputChange";
 import { getMonth } from "../../utils";
 function EditInputs() {
@@ -9,13 +9,9 @@ function EditInputs() {
   const { detailId } = useParams();
   const queryClient = useQueryClient();
 
-  const { data: accountLists } = useQuery({
-    queryKey: ["accountLists"],
-    queryFn: getAccountData,
-  });
-
-  const list = accountLists?.find((item) => {
-    return item.id === detailId;
+  const { data: accountList } = useQuery({
+    queryKey: ["accountLists", detailId],
+    queryFn: () => getAccountDataById(detailId),
   });
 
   const {
@@ -30,15 +26,15 @@ function EditInputs() {
   });
 
   useEffect(() => {
-    if (list) {
+    if (accountList) {
       setValues({
-        editDate: list.date,
-        editCategory: list.category,
-        editContent: list.content,
-        editPrice: list.price,
+        editDate: accountList.date,
+        editCategory: accountList.category,
+        editContent: accountList.content,
+        editPrice: accountList.price,
       });
     }
-  }, [list, setValues]);
+  }, [accountList, setValues]);
 
   const { editDate, editCategory, editContent, editPrice } = input;
 

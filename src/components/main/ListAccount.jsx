@@ -2,19 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { getAccountData } from "../../api/account";
+import { getMontlyAccountData } from "../../api/account";
 
 function ListAccount() {
   const clickedMonth = useSelector((state) => state.accountList.month);
 
   const { data: accountLists, isLoading } = useQuery({
-    queryKey: ["accountLists"],
-    queryFn: getAccountData,
+    queryKey: ["accountLists", clickedMonth],
+    queryFn: () => getMontlyAccountData(clickedMonth),
   });
-
-  const monthlyAccountList = accountLists?.filter(
-    (item) => item.month === clickedMonth
-  );
 
   return (
     <StyledListBox>
@@ -22,7 +18,7 @@ function ListAccount() {
         {isLoading ? (
           <div> loading... </div>
         ) : (
-          monthlyAccountList.map((item) => {
+          accountLists.map((item) => {
             return (
               <StyledListLi key={item.id}>
                 <Link to={`/detail/${item.id}`}>
