@@ -24,7 +24,7 @@ export async function loginFetch(id, password) {
 export async function getUserInfo(token) {
   const { data } = await axios.get("https://moneyfulpublicpolicy.co.kr/user", {
     headers: {
-      Authorization: `bearer ${token}`,
+      Authorization: `Bearer ${token}`,
     },
   });
   return data;
