@@ -1,52 +1,48 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { styled } from "styled-components";
 import { getUserInfo, updateAvatar } from "../../api/auth";
-import { AuthContext } from "../../context/AuthProvider";
 function ProfileForm() {
-  const { setProfileImg, setProfileNickName, nickName } =
-    useContext(AuthContext);
+  const queryClient = useQueryClient();
   const [imgFile, setImgFile] = useState("");
-  const nickNameRef = useRef(null);
-  const editNickName = nickNameRef.current?.value;
+  const [nickname, setNickname] = useState("");
   const token = localStorage.getItem("accessToken");
-  const getUserId = async () => {
-    try {
-      const data = await getUserInfo(token);
-      setProfileNickName(data.nickname);
-    } catch (error) {
-      alert(error);
-    }
-  };
+
+  const { data: userInfo } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getUserInfo(token),
+  });
+
   useEffect(() => {
-    getUserId();
-  }, []);
+    if (userInfo) {
+      setNickname(userInfo.nickname);
+    }
+  }, [userInfo]);
+
+  const handleNicknameChange = (e) => {
+    setNickname(e.target.value);
+  };
+
   const hanldeChangeFile = (e) => {
     setImgFile(e.target.files[0]);
   };
+
+  const { mutate: updateImg } = useMutation({
+    mutationFn: ({ token, imgFile, nickname }) =>
+      updateAvatar(token, imgFile, nickname),
+    onSuccess: () => queryClient.invalidateQueries(["profile"]),
+  });
+
   const handleUpdateProfile = async (e) => {
     e.preventDefault();
-    try {
-      const { message, success } = await updateAvatar(
-        token,
-        imgFile,
-        editNickName
-      );
-      if (success) {
-        const { avatar, nickname } = await getUserInfo(token);
-        setProfileImg(avatar);
-        setProfileNickName(nickname);
-      }
-      alert(message);
-    } catch (error) {
-      alert(error);
-    }
+    updateImg({ token, imgFile, nickname });
   };
   return (
     <StyledProfileForm>
       <h2>프로필 수정</h2>
       <StyledFormDiv>
         <label>닉네임</label>
-        <input type="text" defaultValue={nickName} ref={nickNameRef} />
+        <input type="text" value={nickname} onChange={handleNicknameChange} />
       </StyledFormDiv>
       <StyledFormDiv>
         <label>아바타 이미지</label>

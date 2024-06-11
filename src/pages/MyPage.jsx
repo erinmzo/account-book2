@@ -6,7 +6,6 @@ import { AuthContext } from "../context/AuthProvider";
 
 function MyPage() {
   const { isAuthenticated } = useContext(AuthContext);
-  console.log(isAuthenticated);
   if (!isAuthenticated) {
     return redirect("/");
   }
