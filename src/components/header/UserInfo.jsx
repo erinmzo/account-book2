@@ -7,7 +7,6 @@ function UserInfo() {
     queryKey: ["profile"],
     queryFn: () => getUserInfo(token),
   });
-  console.log(userInfo);
 
   return isLoading ? (
     <div>loading....</div>
