@@ -1,15 +1,6 @@
 {
   "expenses": [
     {
-      "id": "46869445-5f9c-4650-941f-41bd9457bc07",
-      "month": 1,
-      "date": "2024-01-03",
-      "category": "개인사업",
-      "price": 1000000,
-      "content": "테슬라 모델 3",
-      "createdBy": "Musk"
-    },
-    {
       "id": "a5c0d8de-d010-4d07-9934-29765051a7ea",
       "month": 1,
       "date": "2024-01-07",

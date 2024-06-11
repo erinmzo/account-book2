@@ -21,6 +21,7 @@ function InputAccount() {
     content: "",
     price: "",
   });
+
   const { date, category, content, price } = input;
 
   const token = localStorage.getItem("accessToken");
