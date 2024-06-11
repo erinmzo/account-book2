@@ -2,14 +2,11 @@ import axios from "axios";
 import { AUTH_BASE_URL } from "../constants";
 
 export async function joinFetch(id, password, nickname) {
-  const { data } = await axios.post(
-    `https://moneyfulpublicpolicy.co.kr/register`,
-    {
-      id,
-      password,
-      nickname,
-    }
-  );
+  const { data } = await axios.post(`${AUTH_BASE_URL}/register`, {
+    id,
+    password,
+    nickname,
+  });
   return data;
 }
 
@@ -22,7 +19,7 @@ export async function loginFetch(id, password) {
 }
 
 export async function getUserInfo(token) {
-  const { data } = await axios.get("https://moneyfulpublicpolicy.co.kr/user", {
+  const { data } = await axios.get(`${AUTH_BASE_URL}/user`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -32,7 +29,7 @@ export async function getUserInfo(token) {
 
 export async function updateAvatar(token, avatar, nickname) {
   const { data } = await axios.patch(
-    `https://moneyfulpublicpolicy.co.kr/profile`,
+    `${AUTH_BASE_URL}/profile`,
     {
       avatar,
       nickname,
