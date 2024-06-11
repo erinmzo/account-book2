@@ -1,35 +1,65 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getAccountData, updateAccountData } from "../../api/account";
 import useInputChange from "../../hooks/useInputChange";
-import { edit } from "../../store/slices/accountSlice";
 import { getMonth } from "../../utils";
 function EditInputs() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  let { detailId } = useParams();
-  const accountLists = useSelector((state) => state.accountList.list);
-  const { date, category, content, price, id } = accountLists.find((item) => {
+  const { detailId } = useParams();
+  const queryClient = useQueryClient();
+
+  const { data: accountLists } = useQuery({
+    queryKey: ["accountLists"],
+    queryFn: getAccountData,
+  });
+
+  const list = accountLists?.find((item) => {
     return item.id === detailId;
   });
-  const { values: input, handler: onChangeEditValue } = useInputChange({
-    editDate: date,
-    editCategory: category,
-    editContent: content,
-    editPrice: price,
+
+  const {
+    values: input,
+    handler: onChangeEditValue,
+    setValues,
+  } = useInputChange({
+    editDate: "",
+    editCategory: "",
+    editContent: "",
+    editPrice: "",
   });
+
+  useEffect(() => {
+    if (list) {
+      setValues({
+        editDate: list.date,
+        editCategory: list.category,
+        editContent: list.content,
+        editPrice: list.price,
+      });
+    }
+  }, [list, setValues]);
+
   const { editDate, editCategory, editContent, editPrice } = input;
+
+  const { mutate: updateList } = useMutation({
+    mutationFn: ({ id, list }) => updateAccountData(id, list),
+    onSuccess: () => queryClient.invalidateQueries(["accountLists"]),
+  });
+
   const handleEditAccount = () => {
     const editList = {
-      id: id,
       date: editDate,
       category: editCategory,
       price: Number(editPrice),
       content: editContent,
       month: getMonth(editDate),
     };
-    dispatch(edit(editList));
-    navigate("/");
+
+    updateList({ id: detailId, list: editList });
+    navigate("/main");
   };
+
   return (
     <>
       <form onSubmit={handleEditAccount} id="edit-form">

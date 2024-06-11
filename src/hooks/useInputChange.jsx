@@ -12,6 +12,6 @@ const useInputChange = (defaultValues) => {
   const reset = () => {
     setValues(defaultValues);
   };
-  return { values, handler, reset };
+  return { values, handler, reset, setValues };
 };
 export default useInputChange;

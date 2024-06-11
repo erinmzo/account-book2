@@ -1,14 +1,15 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
-import { v4 as uuidv4 } from "uuid";
-import { getUserInfo } from "../../api/Auth";
+import { addAccountData } from "../../api/account";
+import { getUserInfo } from "../../api/auth";
 import useInputChange from "../../hooks/useInputChange";
-import { add, monthSet } from "../../store/slices/accountSlice";
+import { monthSet } from "../../store/slices/accountSlice";
 import { getMonth } from "../../utils";
 import Inputs from "./Inputs";
-
 function InputAccount() {
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const {
     values: input,
@@ -53,6 +54,11 @@ function InputAccount() {
     return true;
   };
 
+  const { mutate: addAccount } = useMutation({
+    mutationFn: (newList) => addAccountData(newList),
+    onSuccess: queryClient.invalidateQueries(["accountLists"]),
+  });
+
   const submitAccount = async (e) => {
     e.preventDefault();
 
@@ -66,15 +72,11 @@ function InputAccount() {
       category,
       price: Number(price),
       content,
-      //YYYY-MM-DD에서 MM을 추출한것
       month: getMonth(date),
-      id: uuidv4(),
       createdBy: userNickName,
     };
-
-    dispatch(add(newList));
+    addAccount(newList);
     dispatch(monthSet(newList.month));
-    localStorage.setItem("month", newList.month);
     onReset();
   };
 

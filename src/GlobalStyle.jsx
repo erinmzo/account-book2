@@ -4,13 +4,10 @@ const GlobalStyle = createGlobalStyle`
   
 }
   .context{
-    display:flex;
-    justify-content: center;
-    align-items: center;
     background-color: #434a5e;
-    padding: 30px;
-    height: 100vh;
+    padding: 60px 0 100px;
     min-height: 100vh;
+    height: 100%;
   }
   .container{
     background-color: #dee7ff;

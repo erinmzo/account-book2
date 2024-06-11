@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { joinFetch } from "../../api/Auth";
+import { joinFetch } from "../../api/auth";
 import useInputChange from "../../hooks/useInputChange";
 function JoinForm() {
   const navigate = useNavigate();

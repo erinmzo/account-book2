@@ -1,19 +1,19 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { styled } from "styled-components";
-import { getUserInfo } from "../../api/Auth";
+import { getUserInfo } from "../../api/auth";
 import { AuthContext } from "../../context/AuthProvider";
 function UserInfo() {
-  const [userInfo, setUserInfo] = useState("");
-  const { imgUrl, setProfile } = useContext(AuthContext);
+  const { imgUrl, setProfileImg, nickName, setProfileNickName } =
+    useContext(AuthContext);
   const token = localStorage.getItem("accessToken");
   const getUserId = async () => {
     try {
       const data = await getUserInfo(token);
-      setUserInfo(data);
+      setProfileNickName(data.nickname);
       if (!data.avatar) {
-        setProfile("/default-user-profile.png");
+        setProfileImg("/default-user-profile.png");
       } else {
-        setProfile(data.avatar);
+        setProfileImg(data.avatar);
       }
     } catch (error) {
       alert(error);
@@ -25,10 +25,10 @@ function UserInfo() {
   return (
     <StyledUserInfo>
       <div>
-        <img src={imgUrl} alt={userInfo.nickname} />
+        <img src={imgUrl} alt={nickName} />
       </div>
       <div>
-        <span>{userInfo.nickname}</span>님 환영합니다.
+        <span>{nickName}</span>님 환영합니다.
       </div>
     </StyledUserInfo>
   );

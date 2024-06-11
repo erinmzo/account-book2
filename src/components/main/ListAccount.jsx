@@ -1,31 +1,43 @@
+import { useQuery } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { getAccountData } from "../../api/account";
 
 function ListAccount() {
-  const accountLists = useSelector((state) => state.accountList.list);
   const clickedMonth = useSelector((state) => state.accountList.month);
-  const monthlyAccountList = accountLists.filter(
+
+  const { data: accountLists, isLoading } = useQuery({
+    queryKey: ["accountLists"],
+    queryFn: getAccountData,
+  });
+
+  const monthlyAccountList = accountLists?.filter(
     (item) => item.month === clickedMonth
   );
+
   return (
     <StyledListBox>
       <StyledListUl>
-        {monthlyAccountList.map((item) => {
-          return (
-            <StyledListLi key={item.id}>
-              <Link to={`/detail/${item.id}`}>
-                <StyedDate>{item.date}</StyedDate>
-                <StyledContents>
-                  <StyledTitle>
-                    {item.category} - {item.content} / {item.createdBy}
-                  </StyledTitle>
-                  <StyledPrice>{item.price}원</StyledPrice>
-                </StyledContents>
-              </Link>
-            </StyledListLi>
-          );
-        })}
+        {isLoading ? (
+          <div> loading... </div>
+        ) : (
+          monthlyAccountList.map((item) => {
+            return (
+              <StyledListLi key={item.id}>
+                <Link to={`/detail/${item.id}`}>
+                  <StyedDate>{item.date}</StyedDate>
+                  <StyledContents>
+                    <StyledTitle>
+                      {item.category} - {item.content} / by. {item.createdBy}
+                    </StyledTitle>
+                    <StyledPrice>{item.price}원</StyledPrice>
+                  </StyledContents>
+                </Link>
+              </StyledListLi>
+            );
+          })
+        )}
       </StyledListUl>
     </StyledListBox>
   );

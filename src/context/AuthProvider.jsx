@@ -7,6 +7,7 @@ const token = localStorage.getItem("accessToken");
 function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(!!token);
   const [imgUrl, setImgUrl] = useState("");
+  const [nickName, setNickName] = useState("");
 
   const logIn = (token) => {
     localStorage.setItem("accessToken", token);
@@ -17,13 +18,24 @@ function AuthProvider({ children }) {
     setIsAuthenticated(false);
   };
 
-  const setProfile = (img) => {
+  const setProfileImg = (img) => {
     setImgUrl(img);
+  };
+  const setProfileNickName = (nickname) => {
+    setNickName(nickname);
   };
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, logIn, logOut, setProfile, imgUrl }}
+      value={{
+        isAuthenticated,
+        logIn,
+        logOut,
+        setProfileImg,
+        imgUrl,
+        setProfileNickName,
+        nickName,
+      }}
     >
       {children}
     </AuthContext.Provider>

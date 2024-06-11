@@ -12,6 +12,7 @@ function HomePage() {
   if (!isAuthenticated) {
     return redirect("/");
   }
+  //console.log(isAuthenticated);
   return (
     <>
       <div className="wrapper">

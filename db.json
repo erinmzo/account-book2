@@ -1,0 +1,58 @@
+{
+  "expenses": [
+    {
+      "id": "46869445-5f9c-4650-941f-41bd9457bc07",
+      "month": 1,
+      "date": "2024-01-03",
+      "category": "개인사업",
+      "price": 1000000,
+      "content": "테슬라 모델 3",
+      "createdBy": "Musk"
+    },
+    {
+      "id": "a5c0d8de-d010-4d07-9934-29765051a7ea",
+      "month": 1,
+      "date": "2024-01-07",
+      "category": "개인사업",
+      "price": 1000,
+      "content": "X(구 트위터)",
+      "createdBy": "Musk"
+    },
+    {
+      "id": "b0e0",
+      "date": "2024-09-11",
+      "category": "민수",
+      "price": 10000,
+      "content": "서울의 사진",
+      "month": 9,
+      "createdBy": "조민수바보"
+    },
+    {
+      "id": "7cbd",
+      "date": "2024-06-11",
+      "category": "민수",
+      "price": 10000,
+      "content": "바보",
+      "month": 6,
+      "createdBy": "조민수바보"
+    },
+    {
+      "id": "611f",
+      "date": "2024-10-11",
+      "category": "민수",
+      "price": 60000,
+      "content": "음하하",
+      "month": 10,
+      "createdBy": "조민수바보"
+    },
+    {
+      "id": "2302",
+      "date": "2024-03-11",
+      "category": "민수",
+      "price": 23123,
+      "content": "서울의 사진",
+      "month": 3,
+      "createdBy": "조민수바보"
+    }
+  ]
+}

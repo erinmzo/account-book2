@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { styled } from "styled-components";
-import { loginFetch } from "../../api/Auth";
+import { loginFetch } from "../../api/auth";
 import { AuthContext } from "../../context/AuthProvider";
 import useInputChange from "../../hooks/useInputChange";
 function LoginForm() {

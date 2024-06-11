@@ -1,23 +1,24 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { remove } from "../../store/slices/accountSlice";
+import { deleteAccountData } from "../../api/account";
 function DetailButton() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
   let { detailId } = useParams();
-  const accountLists = useSelector((state) => state.accountList.list);
-  const { id } = accountLists.find((item) => {
-    return item.id === detailId;
+
+  const { mutate: deleteAccount } = useMutation({
+    mutationFn: (id) => deleteAccountData(id),
+    onSuccess: () => queryClient.invalidateQueries(["accountLists"]),
   });
 
   const handleDeleteAccount = () => {
     alert("삭제됩니다.");
-    dispatch(remove(id));
-    navigate("/");
+    deleteAccount(detailId);
+    navigate("/main");
   };
 
   const handleBackPage = () => {
-    navigate("/");
+    navigate("/main");
   };
   return (
     <>

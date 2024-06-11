@@ -1,10 +1,10 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { styled } from "styled-components";
-import { getUserInfo, updateAvatar } from "../../api/Auth";
+import { getUserInfo, updateAvatar } from "../../api/auth";
 import { AuthContext } from "../../context/AuthProvider";
 function ProfileForm() {
-  const { setProfile } = useContext(AuthContext);
-  const [userNickName, setUserNickName] = useState("");
+  const { setProfileImg, setProfileNickName, nickName } =
+    useContext(AuthContext);
   const [imgFile, setImgFile] = useState("");
   const nickNameRef = useRef(null);
   const editNickName = nickNameRef.current?.value;
@@ -12,7 +12,7 @@ function ProfileForm() {
   const getUserId = async () => {
     try {
       const data = await getUserInfo(token);
-      setUserNickName(data.nickname);
+      setProfileNickName(data.nickname);
     } catch (error) {
       alert(error);
     }
@@ -32,8 +32,9 @@ function ProfileForm() {
         editNickName
       );
       if (success) {
-        const { avatar } = await getUserInfo(token);
-        setProfile(avatar);
+        const { avatar, nickname } = await getUserInfo(token);
+        setProfileImg(avatar);
+        setProfileNickName(nickname);
       }
       alert(message);
     } catch (error) {
@@ -45,7 +46,7 @@ function ProfileForm() {
       <h2>프로필 수정</h2>
       <StyledFormDiv>
         <label>닉네임</label>
-        <input type="text" defaultValue={userNickName} ref={nickNameRef} />
+        <input type="text" defaultValue={nickName} ref={nickNameRef} />
       </StyledFormDiv>
       <StyledFormDiv>
         <label>아바타 이미지</label>
