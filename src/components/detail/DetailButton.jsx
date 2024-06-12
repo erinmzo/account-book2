@@ -1,10 +1,23 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate, useParams } from "react-router-dom";
-import { deleteAccountData } from "../../api/account";
+import { deleteAccountData, getAccountDataById } from "../../api/account";
+import { getUserInfo } from "../../api/auth";
 function DetailButton() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   let { detailId } = useParams();
+
+  const token = localStorage.getItem("accessToken");
+
+  const { data: userInfo } = useQuery({
+    queryKey: ["profile"],
+    queryFn: () => getUserInfo(token),
+  });
+
+  const { data: accountList } = useQuery({
+    queryKey: ["accountLists", detailId],
+    queryFn: () => getAccountDataById(detailId),
+  });
 
   const { mutate: deleteAccount } = useMutation({
     mutationFn: (id) => deleteAccountData(id),
@@ -12,9 +25,13 @@ function DetailButton() {
   });
 
   const handleDeleteAccount = () => {
-    alert("삭제됩니다.");
-    deleteAccount(detailId);
-    navigate("/main");
+    if (userInfo.id === accountList.userId) {
+      alert("삭제됩니다.");
+      deleteAccount(detailId);
+      navigate("/main");
+    } else {
+      alert("회원님의 게시물이 아닙니다.");
+    }
   };
 
   const handleBackPage = () => {
