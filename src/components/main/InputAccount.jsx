@@ -29,7 +29,7 @@ function InputAccount() {
   const getUserId = async () => {
     try {
       const data = await getUserInfo(token);
-      return data.nickname;
+      return data;
     } catch (error) {
       alert(error);
     }
@@ -66,7 +66,7 @@ function InputAccount() {
     const isValid = validate();
     if (!isValid) return;
 
-    const userNickName = await getUserId();
+    const { id, nickname } = await getUserId();
 
     const newList = {
       date,
@@ -74,7 +74,8 @@ function InputAccount() {
       price: Number(price),
       content,
       month: getMonth(date),
-      createdBy: userNickName,
+      createdBy: nickname,
+      userId: id,
     };
     addAccount(newList);
     dispatch(monthSet(newList.month));
